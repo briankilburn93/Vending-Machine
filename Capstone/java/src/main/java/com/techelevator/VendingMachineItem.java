@@ -1,22 +1,15 @@
 package com.techelevator;
 
-public abstract class VendingMachineItem {
+public class VendingMachineItem {
 	
-	private String slotLocation;
 	private String productName;
 	private double price;
 	private String type;
-	private String sound;
 	
 	public VendingMachineItem(String productName, double price, String type) {
-		//this.slotLocation = slotLocation;
 		this.productName = productName;
 		this.price = price;
 		this.type = type;
-	}
-	
-	public String getSlotLocation() {
-		return slotLocation;
 	}
 
 	public String getProductName() {
@@ -32,11 +25,22 @@ public abstract class VendingMachineItem {
 	}
 
 	public String getSound() {
-		return sound;
+		
+		switch(type) {
+		case "Chip" : 
+			return "chip noise";
+		case "Gum" : 
+			return "gum noise";
+		case "Drink" : 
+			return "drink noise";
+		case "Candy" : 
+			return "candy noise";
+		}
+		return "error noise";
 	}
 
 	public String toString() {
-		return(productName + ": " + price + "\n" + "Remaining balance" + "balance goes here" + "/n" + sound + "\n"); 
+		return(productName + ": " + price + "\n" + "Remaining balance" + "balance goes here" + getSound() + "\n"); 
 	}
 
 }
