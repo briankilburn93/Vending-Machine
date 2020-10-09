@@ -28,13 +28,13 @@ public class VendingMachineItem {
 		
 		switch(type) {
 		case "Chip" : 
-			return "chip noise";
+			return "Crunch Crunch, Yum!";
 		case "Gum" : 
-			return "gum noise";
+			return "Chew Chew, Yum!";
 		case "Drink" : 
-			return "drink noise";
+			return "Glug Glug, Yum!";
 		case "Candy" : 
-			return "candy noise";
+			return "Munch Munch, Yum!";
 		}
 		return "error noise";
 	}

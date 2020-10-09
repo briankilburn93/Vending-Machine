@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -41,9 +42,20 @@ public class VendingMachineInventory {
 			}
 			
 			inventory.put(slotID, itemInformation);
-			
 		}
 		vendingMachineFile.close();
+	}
+	
+	public String displayItems(Map<String,List<VendingMachineItem>> inventory) {
+		Set<String> keys = inventory.keySet();
+		
+		for(String test: keys) {
+			
+			
+		
+		}
+		return "";
+		//return slot | name | quantity | price
 	}
 	
 }

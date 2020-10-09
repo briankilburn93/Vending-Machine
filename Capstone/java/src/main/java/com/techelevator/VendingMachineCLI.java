@@ -78,6 +78,7 @@ public class VendingMachineCLI {
  * Methods used to perform processing
  ********************************************************************************************************/
 	public void displayItems() {      // static attribute used as method is not associated with specific object instance
+		
 		// Code to display items in Vending Machine
 	}
 	
