@@ -18,6 +18,7 @@ public class VendingMachineInventory {
 	**********************************/
 	Map<String, VendingMachineItem> inventory;
 	double totalMoney = 0;
+	double salesTotal = 0;
 	VendingMachineItem item = new VendingMachineItem();
 	File logFile;
 	PrintWriter logPrintWriter;
@@ -141,6 +142,8 @@ public class VendingMachineInventory {
 						
 						inventory.get(currentKey).setStock(currentStock-1);
 						totalMoney = totalMoney - priceOfItem;	// Decrease total money
+						salesTotal = salesTotal + priceOfItem;
+						
 						System.out.println("Item Dispensed: " + nameOfItem + " |" + " Price: $" + priceOfItem + " |" + " Your remaining balance: $" + totalMoney + "\n" + item.getSound(currentType));
 						
 						LocalDateTime datetime1 = LocalDateTime.now();  
@@ -165,6 +168,10 @@ public class VendingMachineInventory {
 		}
 	}
 	
+	public double getSalesTotal() {
+		return salesTotal;
+	}
+
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
 		logPrintWriter.close();
 	}

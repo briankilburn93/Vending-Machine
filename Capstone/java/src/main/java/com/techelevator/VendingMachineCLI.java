@@ -113,7 +113,7 @@ public class VendingMachineCLI {
 				VendingMachineItem currentItem = vendingMachine.getInventory().get(key);
 				System.out.println(currentItem.salesToString());
 			}
-				//System.out.println("Total Sales: $" + totalSalesHere);
+				System.out.println("Total Sales: $" + aVendingMachine.getSalesTotal());
 	}
 	
 	public void purchaseItems(){	 // static attribute used as method is not associated with specific object instance
