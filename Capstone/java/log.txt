@@ -1,2 +1,0 @@
-add item to log
-add change to log
