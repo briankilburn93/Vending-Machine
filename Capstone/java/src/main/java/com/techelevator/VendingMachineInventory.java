@@ -1,11 +1,11 @@
 package com.techelevator;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -82,7 +82,29 @@ public class VendingMachineInventory {
 		return totalMoney;
 	}
 	
-	public void buyItem(String selectedItem) {
+	public void returnChange() {
+		
+		double change = totalMoney;
+		
+		totalMoney = (totalMoney * 100);
+		
+		int quarters = 0;
+		int dimes = 0;
+		int nickels = 0;
+		
+		quarters = (int)(totalMoney / 25);
+		totalMoney = totalMoney % 25;
+		dimes = (int)(totalMoney) / 10;
+		totalMoney = totalMoney % 10;
+		nickels = (int)(totalMoney) / 5;
+		totalMoney = totalMoney % 5;
+		
+		totalMoney = 0;
+		
+		System.out.println("Your total change is $" + change + " |  Quarters: " + quarters + " |  Dimes: " + dimes + " |  Nickels: " + nickels);
+	}
+	
+	public void buyItem(String selectedItem){
 		// EXAMPLE selectedItem = A1;
 		/* Verify:
 		 *   1. Is it in the map?
@@ -95,6 +117,28 @@ public class VendingMachineInventory {
 		 * 	3. Display correct message 
 		 * 	
 		 */
+		
+		
+		/*
+		public void fileTest() {
+			File logFile = new File("log.txt");
+			FileWriter logWriter = null;
+			BufferedWriter bufferedLog = null;
+			PrintWriter logPrintWriter = null;
+			
+			try {
+				logWriter = new FileWriter(logFile, true);
+				bufferedLog = new BufferedWriter(logWriter);
+				logPrintWriter = new PrintWriter(bufferedLog);
+				logPrintWriter.println("01/01/2016 12:00:00 PM FEED MONEY: $5.00 $5.00");
+				} finally {
+					logWriter.close();
+					bufferedLog.close();
+					logPrintWriter.close();
+				}
+		}
+		*/
+		
 		Set<String> theKeys = inventory.keySet();
 		
 		for(String currentKey : theKeys) {
@@ -106,22 +150,22 @@ public class VendingMachineInventory {
 						
 				if(currentStock > 0) {
 					if(totalMoney - priceOfItem >= 0) {
-						// inventory.put(currentKey, )
+						inventory.get(currentKey).setStock(currentStock-1);
 						totalMoney = totalMoney - priceOfItem;	// Decrease total money
 						System.out.println("Item Dispensed: " + nameOfItem + " |" + " Price: $" + priceOfItem + " |" + " Your remaining balance: $" + totalMoney + "\n" + item.getSound(currentType));
 						break;
 					}
-					else {
-						System.out.println("Insufficient funds.");
+					else if(totalMoney - priceOfItem < 0) {
+						System.out.println("Insufficient funds | " + " Your remaining balance: $" + totalMoney);
+						break;
 					}
 				}
-				else {
-					System.out.println("Currently out of stock");
+				else if(currentStock == 0) {
+					System.out.println(currentKey + " is currently out of stock | " + " Your remaining balance: $" + totalMoney);
+					break;
 				}
-
 			}
 
 		}
-	
 	}
 }

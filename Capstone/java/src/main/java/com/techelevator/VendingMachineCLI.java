@@ -1,5 +1,6 @@
 package com.techelevator;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -60,7 +61,7 @@ public class VendingMachineCLI {
 	*
 	***************************************************************************************************************************/
 
-	public void run() throws FileNotFoundException {
+	public void run() throws FileNotFoundException{
 		aVendingMachine.setInventory(aVendingMachine.loadItemsFromFile()); // this loads inventory on startup ONLY
 		boolean shouldProcess = true;         // Loop control variable
 		
@@ -99,7 +100,7 @@ public class VendingMachineCLI {
 			}
 	}
 	
-	public void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
+	public void purchaseItems(){	 // static attribute used as method is not associated with specific object instance
 		boolean shouldProcess = true; 
 		while(shouldProcess) {                // Loop until user indicates they want to exit
 			
@@ -117,13 +118,14 @@ public class VendingMachineCLI {
 				case PURCHASE_MENU_SELECT_PRODUCT:
 					displayItems(aVendingMachine);
 					System.out.print("Please enter desired item code: ");
-					String selectedItem = theKeyboard.nextLine();
+					String selectedItem = theKeyboard.nextLine().toUpperCase();
 					aVendingMachine.buyItem(selectedItem);
 					// invoke method to purchase items from Vending Machine
 					break;                    // Exit switch statement
 			
 				case PURCHASE_MENU_FINISH_TRANSACTION:
 					shouldProcess = false;    // Set variable to end loop
+					aVendingMachine.returnChange();
 					break;                    // Exit switch statement
 			}	
 		}

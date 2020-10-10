@@ -58,7 +58,7 @@ public class VendingMachineItem {
 		return stock;
 	}
 	public int setStock(int stock) {
-		return stock--;
+		return this.stock = stock;
 	}
 
 	/**********************************
