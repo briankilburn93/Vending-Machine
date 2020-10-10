@@ -24,9 +24,11 @@ public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE      = "Purchase";
 	private static final String MAIN_MENU_OPTION_EXIT          = "Exit";
+	private static final String MAIN_MENU_OPTION_SALES_REPORT          = "Sales Report";
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS,
 													    MAIN_MENU_OPTION_PURCHASE,
-													    MAIN_MENU_OPTION_EXIT
+													    MAIN_MENU_OPTION_EXIT,
+													    MAIN_MENU_OPTION_SALES_REPORT
 													    };
 	
 	private static final String PURCHASE_MENU_FEED_MONEY 			= "Feed Money";
@@ -83,6 +85,10 @@ public class VendingMachineCLI {
 					endMethodProcessing();    		// Invoke method to perform end of method processing
 					shouldProcess = false;    		// Set variable to end loop
 					break;                    		// Exit switch statement
+					
+				case MAIN_MENU_OPTION_SALES_REPORT:
+					salesReport(aVendingMachine);
+					break;
 			}	
 		}
 		return;                               // End method and return to caller
@@ -98,6 +104,16 @@ public class VendingMachineCLI {
 				// System.out.println(key);
 				System.out.println(key + " " + currentItem.toString());
 			}
+	}
+	
+	public void salesReport(VendingMachineInventory vendingMachine) {      // static attribute used as method is not associated with specific object instance
+		
+		Set<String> keys = vendingMachine.getInventory().keySet();
+			for (String key : keys) {
+				VendingMachineItem currentItem = vendingMachine.getInventory().get(key);
+				System.out.println(currentItem.salesToString());
+			}
+				//System.out.println("Total Sales: $" + totalSalesHere);
 	}
 	
 	public void purchaseItems(){	 // static attribute used as method is not associated with specific object instance

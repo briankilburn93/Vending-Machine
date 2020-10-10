@@ -1,11 +1,10 @@
 package com.techelevator;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -77,32 +76,23 @@ public class VendingMachineInventory {
 		
 		return inventory; // return the Tree Map
 	}
-	
-	/*public void appendToLog() throws IOException {
-		
-		FileWriter logWriter = null;
-		BufferedWriter bufferedLog = null;
-		PrintWriter logPrintWriter = null;
-		
-		try {
-			File logFile = new File("log.txt");
-			PrintWriter logPrintWriter = new PrintWriter(bufferedLog);
-			logPrintWriter.println("01/01/2016 12:00:00 PM FEED MONEY: $5.00 $5.00");
-			} finally {
-				logPrintWriter.close();
-				bufferedLog.close();
-				logWriter.close();
-				
-			}
-	}*/
 
 	
 
 	public double takeMoney(double insertedMoney) {
 		
+		double currentMoney = totalMoney;
+		
 		if (insertedMoney == 1.00 || insertedMoney == 2.00 || insertedMoney == 5.00 || insertedMoney == 10.00) {
 			totalMoney += insertedMoney;
 		}
+		
+		LocalDateTime datetime1 = LocalDateTime.now();  
+	    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a");  
+	    String formatDateTime = datetime1.format(format);  
+		
+		logPrintWriter.println(formatDateTime + " FEED MONEY: $" + currentMoney + " $" + totalMoney);
+		
 		return totalMoney;
 	}
 	
@@ -127,7 +117,11 @@ public class VendingMachineInventory {
 		
 		System.out.println("Your total change is $" + change + " |  Quarters: " + quarters + " |  Dimes: " + dimes + " |  Nickels: " + nickels);
 		
-		logPrintWriter.println("add change to log");
+		LocalDateTime datetime1 = LocalDateTime.now();  
+	    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a");  
+	    String formatDateTime = datetime1.format(format);  
+		
+		logPrintWriter.println(formatDateTime + " GIVE CHANGE: $" + change + " $" + totalMoney);
 	}
 	
 	public void buyItem(String selectedItem){
@@ -143,10 +137,18 @@ public class VendingMachineInventory {
 						
 				if(currentStock > 0) {
 					if(totalMoney - priceOfItem >= 0) {
+						double originalMoney = totalMoney;
+						
 						inventory.get(currentKey).setStock(currentStock-1);
 						totalMoney = totalMoney - priceOfItem;	// Decrease total money
 						System.out.println("Item Dispensed: " + nameOfItem + " |" + " Price: $" + priceOfItem + " |" + " Your remaining balance: $" + totalMoney + "\n" + item.getSound(currentType));
-						logPrintWriter.println("add item to log");
+						
+						LocalDateTime datetime1 = LocalDateTime.now();  
+					    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a");  
+					    String formatDateTime = datetime1.format(format);  
+						
+						logPrintWriter.println(formatDateTime + " " + nameOfItem + " " + currentKey + " $" + originalMoney + " $" + totalMoney);
+						
 						break;
 					}
 					else if(totalMoney - priceOfItem < 0) {
@@ -165,6 +167,10 @@ public class VendingMachineInventory {
 	
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
 		logPrintWriter.close();
+	}
+	
+	public void salesReport() {
+		
 	}
 	
 	

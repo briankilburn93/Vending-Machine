@@ -72,5 +72,10 @@ public class VendingMachineItem {
 		return("| " + productName + " |" + " $" + price + " | " + stock + " in stock \n"); // this is format to display items
 		}
 	}
+	
+	public String salesToString() {
+		int tempStock = 5 - stock;
+		return(productName + " | " + tempStock); // this is format to display items
+		}
 
 }
