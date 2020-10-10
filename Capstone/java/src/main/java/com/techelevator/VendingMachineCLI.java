@@ -1,5 +1,6 @@
 package com.techelevator;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.Set;
 
 /**************************************************************************************************************************
@@ -103,15 +104,21 @@ public class VendingMachineCLI {
 		while(shouldProcess) {                // Loop until user indicates they want to exit
 			
 			String choice = (String)vendingMenu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);  // Display menu and get choice
-			
+			Scanner theKeyboard = new Scanner(System.in);
 			switch(choice) {                  // Process based on user menu choice
 			
 				case PURCHASE_MENU_FEED_MONEY:
-					// takeMoney(); // invoke method to display items in Vending Machine
-					break;                    // Exit switch statement
+					System.out.print("The machine accepts $1s $2s $5s or $10s. Please insert bills here: $");
+					double insertedMoney =  theKeyboard.nextDouble();
+					aVendingMachine.takeMoney(insertedMoney);
+					System.out.println("Current money provided: $" + aVendingMachine.getTotalMoney()); 
+					break; // Exit switch statement
 			
 				case PURCHASE_MENU_SELECT_PRODUCT:
-					// selecProd()// CODE GOES HERE
+					displayItems(aVendingMachine);
+					System.out.print("Please enter desired item code: ");
+					String selectedItem = theKeyboard.nextLine();
+					aVendingMachine.buyItem(selectedItem);
 					// invoke method to purchase items from Vending Machine
 					break;                    // Exit switch statement
 			
@@ -123,14 +130,6 @@ public class VendingMachineCLI {
 		return;                               // End method and return to caller
 	}
 	
-	
-	public void takeMoney() {
-		// this method takes in money from the user
-	}
-	
-	public void selectProd() {
-		// this method allows user to select product
-	}
 	
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
 		System.out.println("Thanks for using the Vendo-Matic 800!"); // Any processing that needs to be done before method ends

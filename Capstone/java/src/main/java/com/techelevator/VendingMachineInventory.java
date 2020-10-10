@@ -18,8 +18,8 @@ public class VendingMachineInventory {
 	   			Data Members 
 	**********************************/
 	Map<String, VendingMachineItem> inventory;
-	
-	
+	double totalMoney = 0;
+	VendingMachineItem item = new VendingMachineItem();
 	/**********************************
 				Constructors 
 	 **********************************/
@@ -42,7 +42,9 @@ public class VendingMachineInventory {
 		this.inventory = inventory;
 	}
 
-
+	public double getTotalMoney() {
+		return totalMoney;
+	}
 	
 	/**********************************
 				Methods
@@ -72,5 +74,54 @@ public class VendingMachineInventory {
 	}
 	
 
+	public double takeMoney(double insertedMoney) {
+		
+		if (insertedMoney == 1.00 || insertedMoney == 2.00 || insertedMoney == 5.00 || insertedMoney == 10.00) {
+			totalMoney += insertedMoney;
+		}
+		return totalMoney;
+	}
 	
+	public void buyItem(String selectedItem) {
+		// EXAMPLE selectedItem = A1;
+		/* Verify:
+		 *   1. Is it in the map?
+		 *   2. Can user afford it?
+		 *   3. Is there stock left?
+		 * 
+		 * Need to:
+		 * 	1. Decrease stock amount
+		 * 	2. Decrease total money
+		 * 	3. Display correct message 
+		 * 	
+		 */
+		Set<String> theKeys = inventory.keySet();
+		
+		for(String currentKey : theKeys) {
+			if(selectedItem.equals(currentKey)) {	// This validates selected Item value
+				double priceOfItem = inventory.get(currentKey).getPrice();
+				String nameOfItem =  inventory.get(currentKey).getProductName();
+				int currentStock = (int) inventory.get(currentKey).getStock();
+				String currentType = inventory.get(currentKey).getType();
+						
+				if(currentStock > 0) {
+					if(totalMoney - priceOfItem >= 0) {
+						// inventory.put(currentKey, )
+						totalMoney = totalMoney - priceOfItem;	// Decrease total money
+						System.out.println("Item Dispensed: " + nameOfItem + " |" + " Price: $" + priceOfItem + " |" + " Your remaining balance: $" + totalMoney + "\n" + item.getSound(currentType));
+						break;
+					}
+					else {
+						System.out.println("Insufficient funds.");
+					}
+				}
+				else {
+					System.out.println("Currently out of stock");
+				}
+
+			}
+
+		}
+	
+	}
 }

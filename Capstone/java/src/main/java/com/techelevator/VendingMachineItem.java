@@ -40,7 +40,7 @@ public class VendingMachineItem {
 		return type;
 	}
 
-	public String getSound() {
+	public String getSound(String type) {
 		
 		switch(type) {
 		case "Chip" : 
@@ -54,12 +54,23 @@ public class VendingMachineItem {
 		}
 		return "error noise";
 	}
+	public int getStock() {
+		return stock;
+	}
+	public int setStock(int stock) {
+		return stock--;
+	}
 
 	/**********************************
 				Methods
 	 **********************************/
 	public String toString() {
-		return(productName + " |" + " $" + price + " | " + stock + " in stock \n"); // this is format to display items
+		if(stock == 0) {
+			return("| " + productName + " |" + " $" + price + " | SOLD OUT \n");
+		}
+		else {
+		return("| " + productName + " |" + " $" + price + " | " + stock + " in stock \n"); // this is format to display items
+		}
 	}
 
 }
