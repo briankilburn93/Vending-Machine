@@ -1,12 +1,18 @@
 package com.techelevator;
 
 public class VendingMachineItem {
-	
+	/**********************************
+				Data Members 
+	 **********************************/
 	private String productName;
 	private double price;
 	private String type;
 	private int stock;
 	
+	
+	/**********************************
+				Constructors 
+	 **********************************/
 	public VendingMachineItem() {
 		
 	}
@@ -18,6 +24,10 @@ public class VendingMachineItem {
 		this.stock = stock;
 	}
 
+	
+	/**********************************
+		Getters and Settlers 
+	 **********************************/
 	public String getProductName() {
 		return productName;
 	}
@@ -45,8 +55,11 @@ public class VendingMachineItem {
 		return "error noise";
 	}
 
+	/**********************************
+				Methods
+	 **********************************/
 	public String toString() {
-		return(productName + ": " + price + "\n" + "Remaining balance" + "balance goes here" + getSound() + "\n"); // this is format to display items
+		return(productName + " |" + " $" + price + " | " + stock + " in stock \n"); // this is format to display items
 	}
 
 }
