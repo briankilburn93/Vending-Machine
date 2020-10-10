@@ -73,6 +73,25 @@ public class VendingMachineInventory {
 		return inventory; // return the Tree Map
 	}
 	
+	public void appendToLog() throws IOException {
+		File logFile = new File("log.txt");
+		FileWriter logWriter = null;
+		BufferedWriter bufferedLog = null;
+		PrintWriter logPrintWriter = null;
+		
+		try {
+			logWriter = new FileWriter(logFile, true);
+			bufferedLog = new BufferedWriter(logWriter);
+			logPrintWriter = new PrintWriter(bufferedLog);
+			logPrintWriter.println("01/01/2016 12:00:00 PM FEED MONEY: $5.00 $5.00");
+			} finally {
+				logWriter.close();
+				bufferedLog.close();
+				logPrintWriter.close();
+			}
+	}
+
+	
 
 	public double takeMoney(double insertedMoney) {
 		
@@ -105,39 +124,6 @@ public class VendingMachineInventory {
 	}
 	
 	public void buyItem(String selectedItem){
-		// EXAMPLE selectedItem = A1;
-		/* Verify:
-		 *   1. Is it in the map?
-		 *   2. Can user afford it?
-		 *   3. Is there stock left?
-		 * 
-		 * Need to:
-		 * 	1. Decrease stock amount
-		 * 	2. Decrease total money
-		 * 	3. Display correct message 
-		 * 	
-		 */
-		
-		
-		/*
-		public void fileTest() {
-			File logFile = new File("log.txt");
-			FileWriter logWriter = null;
-			BufferedWriter bufferedLog = null;
-			PrintWriter logPrintWriter = null;
-			
-			try {
-				logWriter = new FileWriter(logFile, true);
-				bufferedLog = new BufferedWriter(logWriter);
-				logPrintWriter = new PrintWriter(bufferedLog);
-				logPrintWriter.println("01/01/2016 12:00:00 PM FEED MONEY: $5.00 $5.00");
-				} finally {
-					logWriter.close();
-					bufferedLog.close();
-					logPrintWriter.close();
-				}
-		}
-		*/
 		
 		Set<String> theKeys = inventory.keySet();
 		
