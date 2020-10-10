@@ -20,6 +20,8 @@ public class VendingMachineInventory {
 	Map<String, VendingMachineItem> inventory;
 	double totalMoney = 0;
 	VendingMachineItem item = new VendingMachineItem();
+	File logFile;
+	PrintWriter logPrintWriter;
 	/**********************************
 				Constructors 
 	 **********************************/
@@ -27,6 +29,9 @@ public class VendingMachineInventory {
 	public VendingMachineInventory() throws FileNotFoundException {
 
 		inventory = new TreeMap<String, VendingMachineItem>(); //this is the inventory in slot order
+		
+		logFile = new File("log.txt");
+		logPrintWriter = new PrintWriter(logFile);
 	}
 	
 	/**********************************
@@ -68,28 +73,28 @@ public class VendingMachineInventory {
 			
 			inventory.put(slotID, item); // putting the slotID (key) and the item (value) in the Tree Map called inventory
 		}
-		vendingMachineFile.close(); // close the Scanner object
+		vendingMachineFile.close(); // close the Scanner objects
 		
 		return inventory; // return the Tree Map
 	}
 	
-	public void appendToLog() throws IOException {
-		File logFile = new File("log.txt");
+	/*public void appendToLog() throws IOException {
+		
 		FileWriter logWriter = null;
 		BufferedWriter bufferedLog = null;
 		PrintWriter logPrintWriter = null;
 		
 		try {
-			logWriter = new FileWriter(logFile, true);
-			bufferedLog = new BufferedWriter(logWriter);
-			logPrintWriter = new PrintWriter(bufferedLog);
+			File logFile = new File("log.txt");
+			PrintWriter logPrintWriter = new PrintWriter(bufferedLog);
 			logPrintWriter.println("01/01/2016 12:00:00 PM FEED MONEY: $5.00 $5.00");
 			} finally {
-				logWriter.close();
-				bufferedLog.close();
 				logPrintWriter.close();
+				bufferedLog.close();
+				logWriter.close();
+				
 			}
-	}
+	}*/
 
 	
 
@@ -121,6 +126,8 @@ public class VendingMachineInventory {
 		totalMoney = 0;
 		
 		System.out.println("Your total change is $" + change + " |  Quarters: " + quarters + " |  Dimes: " + dimes + " |  Nickels: " + nickels);
+		
+		logPrintWriter.println("add change to log");
 	}
 	
 	public void buyItem(String selectedItem){
@@ -139,6 +146,7 @@ public class VendingMachineInventory {
 						inventory.get(currentKey).setStock(currentStock-1);
 						totalMoney = totalMoney - priceOfItem;	// Decrease total money
 						System.out.println("Item Dispensed: " + nameOfItem + " |" + " Price: $" + priceOfItem + " |" + " Your remaining balance: $" + totalMoney + "\n" + item.getSound(currentType));
+						logPrintWriter.println("add item to log");
 						break;
 					}
 					else if(totalMoney - priceOfItem < 0) {
@@ -154,4 +162,10 @@ public class VendingMachineInventory {
 
 		}
 	}
+	
+	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
+		logPrintWriter.close();
+	}
+	
+	
 }

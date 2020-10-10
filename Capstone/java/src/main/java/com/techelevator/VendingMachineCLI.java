@@ -126,6 +126,7 @@ public class VendingMachineCLI {
 				case PURCHASE_MENU_FINISH_TRANSACTION:
 					shouldProcess = false;    // Set variable to end loop
 					aVendingMachine.returnChange();
+					aVendingMachine.endMethodProcessing();
 					break;                    // Exit switch statement
 			}	
 		}
