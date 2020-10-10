@@ -13,16 +13,30 @@ import java.util.TreeMap;
 
 
 public class VendingMachineInventory {
+	/* Data Members */
+	Map<String, VendingMachineItem> inventory;
 	
-	Map<String,List<VendingMachineItem>> inventory;
+	
 	
 	public VendingMachineInventory() throws FileNotFoundException {
 
-		inventory = new TreeMap<String, List<VendingMachineItem>>(); //this is the inventory in slot order
+		inventory = new TreeMap<String, VendingMachineItem>(); //this is the inventory in slot order
 		
-		loadItemsFromFile();	// load the Map from the file
+		// loadItemsFromFile();	// load the Map from the file
 	}
-	private void loadItemsFromFile() throws FileNotFoundException  {
+	
+	
+	public Map<String, VendingMachineItem> getInventory() {
+		return inventory;
+	}
+
+
+	public void setInventory(Map<String, VendingMachineItem> inventory) {
+		this.inventory = inventory;
+	}
+
+
+	public Map<String, VendingMachineItem> loadItemsFromFile() throws FileNotFoundException  {
 		
 		// TODO - add code to verify the file actually exists and is is a file
 		
@@ -34,28 +48,16 @@ public class VendingMachineInventory {
 			String lineElements[] = itemLine.split("\\|");  
 			
 			String slotID = lineElements[0];
-			List<VendingMachineItem> itemInformation = new ArrayList<>();
-			VendingMachineItem item = new VendingMachineItem(lineElements[1], Double.parseDouble(lineElements[2]), lineElements[3]);
+			VendingMachineItem item = new VendingMachineItem(lineElements[1], Double.parseDouble(lineElements[2]), lineElements[3], 5);
 			
-			for(int i=0; i<5;i++) {
-			itemInformation.add(item);
-			}
 			
-			inventory.put(slotID, itemInformation);
+			inventory.put(slotID, item);
 		}
 		vendingMachineFile.close();
+		
+		return inventory;
 	}
 	
-	public String displayItems(Map<String,List<VendingMachineItem>> inventory) {
-		Set<String> keys = inventory.keySet();
-		
-		for(String test: keys) {
-			
-			
-		
-		}
-		return "";
-		//return slot | name | quantity | price
-	}
+
 	
 }

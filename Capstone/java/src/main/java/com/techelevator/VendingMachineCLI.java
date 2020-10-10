@@ -1,5 +1,6 @@
 package com.techelevator;
 import java.io.FileNotFoundException;
+import java.util.Set;
 
 /**************************************************************************************************************************
 *  This is your Vending Machine Command Line Interface (CLI) class
@@ -28,11 +29,11 @@ public class VendingMachineCLI {
 	
 	private Menu vendingMenu;              // Menu object to be used by an instance of this class
 	
-	private VendingMachine aVendingMachine;
+	private VendingMachineInventory aVendingMachine;
 	
 	public VendingMachineCLI(Menu menu) throws FileNotFoundException {  // Constructor - user will pas a menu for this class to use
 		this.vendingMenu = menu;           // Make the Menu the user object passed, our Menu
-		this.aVendingMachine = new VendingMachine();
+		this.aVendingMachine = new VendingMachineInventory();
 	}
 	/**************************************************************************************************************************
 	*  VendingMachineCLI main processing loop
@@ -45,11 +46,12 @@ public class VendingMachineCLI {
 	*  should be coded
 	*
 	*  Methods should be defined following run() method and invoked from it
+	 * @throws FileNotFoundException 
 	*
 	***************************************************************************************************************************/
 
-	public void run() {
-
+	public void run() throws FileNotFoundException {
+		aVendingMachine.setInventory(aVendingMachine.loadItemsFromFile()); // this loads inventory once
 		boolean shouldProcess = true;         // Loop control variable
 		
 		while(shouldProcess) {                // Loop until user indicates they want to exit
@@ -59,7 +61,7 @@ public class VendingMachineCLI {
 			switch(choice) {                  // Process based on user menu choice
 			
 				case MAIN_MENU_OPTION_DISPLAY_ITEMS:
-					displayItems();           // invoke method to display items in Vending Machine
+					displayItems(aVendingMachine);           // invoke method to display items in Vending Machine
 					break;                    // Exit switch statement
 			
 				case MAIN_MENU_OPTION_PURCHASE:
@@ -77,8 +79,14 @@ public class VendingMachineCLI {
 /********************************************************************************************************
  * Methods used to perform processing
  ********************************************************************************************************/
-	public void displayItems() {      // static attribute used as method is not associated with specific object instance
+	public void displayItems(VendingMachineInventory vendingMachine) {      // static attribute used as method is not associated with specific object instance
 		
+		Set<String> keys = vendingMachine.getInventory().keySet();
+			for (String key : keys) {
+				VendingMachineItem currentItem = vendingMachine.getInventory().get(key);
+				// System.out.println(key);
+				System.out.println(key + " " + currentItem.toString());
+			}
 		// Code to display items in Vending Machine
 	}
 	

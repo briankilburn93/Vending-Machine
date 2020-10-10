@@ -5,11 +5,17 @@ public class VendingMachineItem {
 	private String productName;
 	private double price;
 	private String type;
+	private int stock;
 	
-	public VendingMachineItem(String productName, double price, String type) {
+	public VendingMachineItem() {
+		
+	}
+	
+	public VendingMachineItem(String productName, double price, String type, int stock) {
 		this.productName = productName;
 		this.price = price;
 		this.type = type;
+		this.stock = stock;
 	}
 
 	public String getProductName() {
@@ -40,7 +46,7 @@ public class VendingMachineItem {
 	}
 
 	public String toString() {
-		return(productName + ": " + price + "\n" + "Remaining balance" + "balance goes here" + getSound() + "\n"); 
+		return(productName + ": " + price + "\n" + "Remaining balance" + "balance goes here" + getSound() + "\n"); // this is format to display items
 	}
 
 }
