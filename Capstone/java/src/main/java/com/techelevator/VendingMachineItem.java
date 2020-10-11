@@ -11,8 +11,7 @@ public class VendingMachineItem {
 	private String type;
 	private int stock;
 	private static DecimalFormat df = new DecimalFormat("0.00");
-	
-	
+		
 	/**********************************
 				Constructors 
 	 **********************************/
@@ -26,7 +25,6 @@ public class VendingMachineItem {
 		this.type = type;
 		this.stock = stock;
 	}
-
 	
 	/**********************************
 		Getters and Settlers 

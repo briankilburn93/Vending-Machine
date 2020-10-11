@@ -45,7 +45,6 @@ public class VendingMachineInventory {
 		return inventory;
 	}
 
-
 	public void setInventory(Map<String, VendingMachineItem> inventory) {
 		this.inventory = inventory;
 	}
@@ -56,14 +55,16 @@ public class VendingMachineInventory {
 		return totalMoney;
 	}
 	
+	public double getSalesTotal() {
+		return salesTotal;
+	}
+	
 	/**********************************
 				Methods
 	 **********************************/
 	
 	
 	public Map<String, VendingMachineItem> loadItemsFromFile() throws FileNotFoundException  { // this method is set to run on startup
-		
-		// TODO - add code to verify the file actually exists and is is a file
 		
 		File itemFile = new File("vendingmachine.csv");  // Call in the CSV file
 		Scanner vendingMachineFile = new Scanner(itemFile); // called a scanner to read the CSV file
@@ -83,22 +84,20 @@ public class VendingMachineInventory {
 		return inventory; // return the Tree Map
 	}
 
-	
-
 	public double takeMoney(double insertedMoney) {
 		
 		double currentMoney = totalMoney;
-		
-		if (insertedMoney == 1.00 || insertedMoney == 2.00 || insertedMoney == 5.00 || insertedMoney == 10.00) {
-			totalMoney += insertedMoney;
-		}
-		
 		LocalDateTime datetime1 = LocalDateTime.now();  
 	    DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");  
 	    String formatDateTime = datetime1.format(format);  
 		
-		logPrintWriter.println(formatDateTime + " FEED MONEY: $" + df.format(currentMoney) + " $" + df.format(totalMoney));
-		
+		if (insertedMoney == 1.00 || insertedMoney == 2.00 || insertedMoney == 5.00 || insertedMoney == 10.00) {
+			totalMoney += insertedMoney;
+			logPrintWriter.println(formatDateTime + " FEED MONEY: $" + df.format(currentMoney) + " $" + df.format(totalMoney));
+		}
+		else {
+			System.out.println("Invalid bill. Please insert a $1, $2, $5, or $10.");
+		}		
 		return totalMoney;
 	}
 	
@@ -136,6 +135,16 @@ public class VendingMachineInventory {
 	public void buyItem(String selectedItem){
 		
 		Set<String> theKeys = inventory.keySet();
+		boolean verifyItem = false;
+		
+		for(String currentKey : theKeys) {
+			if(selectedItem.equals(currentKey)) {
+				verifyItem = true;
+			}
+		}
+		if(verifyItem == false) {
+			System.out.println("Invalid item");
+		}
 		
 		for(String currentKey : theKeys) {
 			if(selectedItem.equals(currentKey)) {	// This validates selected Item value
@@ -181,10 +190,6 @@ public class VendingMachineInventory {
 			}
 
 		}
-	}
-	
-	public double getSalesTotal() {
-		return salesTotal;
 	}
 
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance

@@ -93,6 +93,7 @@ public class VendingMachineCLI {
 				case MAIN_MENU_OPTION_EXIT:
 					endMethodProcessing();    		// Invoke method to perform end of method processing
 					shouldProcess = false;    		// Set variable to end loop
+					aVendingMachine.endMethodProcessing();
 					break;                    		// Exit switch statement
 					
 				case MAIN_MENU_OPTION_SALES_REPORT:
@@ -111,7 +112,6 @@ public class VendingMachineCLI {
 		Set<String> keys = vendingMachine.getInventory().keySet();
 			for (String key : keys) {
 				VendingMachineItem currentItem = vendingMachine.getInventory().get(key);
-				// System.out.println(key);
 				System.out.println(key + " " + currentItem.toString());
 			}
 	}
@@ -163,13 +163,12 @@ public class VendingMachineCLI {
 				case PURCHASE_MENU_FINISH_TRANSACTION:
 					shouldProcess = false;    // Set variable to end loop
 					aVendingMachine.returnChange();
-					aVendingMachine.endMethodProcessing();
+					endMethodProcessing();
 					break;                    // Exit switch statement
 			}	
 		}
 		return;                               // End method and return to caller
-	}
-	
+	}	
 	
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
 		System.out.println("Thanks for using the Vendo-Matic 800!"); // Any processing that needs to be done before method ends
