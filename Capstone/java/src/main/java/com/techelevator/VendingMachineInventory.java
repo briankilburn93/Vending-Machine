@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class VendingMachineInventory {
 	VendingMachineItem item = new VendingMachineItem();
 	File logFile;
 	PrintWriter logPrintWriter;
+	private static DecimalFormat df = new DecimalFormat("0.00");
 	/**********************************
 				Constructors 
 	 **********************************/
@@ -48,8 +50,10 @@ public class VendingMachineInventory {
 		this.inventory = inventory;
 	}
 
-	public BigDecimal getTotalMoney() {
-		return BigDecimal.valueOf(totalMoney);
+	public double getTotalMoney() {
+		String stringMoney = df.format(totalMoney);
+		totalMoney = Double.parseDouble(stringMoney);
+		return totalMoney;
 	}
 	
 	/**********************************
@@ -81,7 +85,7 @@ public class VendingMachineInventory {
 
 	
 
-	public BigDecimal takeMoney(double insertedMoney) {
+	public double takeMoney(double insertedMoney) {
 		
 		double currentMoney = totalMoney;
 		
@@ -90,12 +94,12 @@ public class VendingMachineInventory {
 		}
 		
 		LocalDateTime datetime1 = LocalDateTime.now();  
-	    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a");  
+	    DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");  
 	    String formatDateTime = datetime1.format(format);  
 		
-		logPrintWriter.println(formatDateTime + " FEED MONEY: $" + currentMoney + " $" + totalMoney);
+		logPrintWriter.println(formatDateTime + " FEED MONEY: $" + df.format(currentMoney) + " $" + df.format(totalMoney));
 		
-		return BigDecimal.valueOf(totalMoney);
+		return totalMoney;
 	}
 	
 	public void returnChange() {
@@ -103,6 +107,9 @@ public class VendingMachineInventory {
 		double change = totalMoney;
 		
 		totalMoney = (totalMoney * 100);
+		
+		String stringMoney = df.format(totalMoney);
+		totalMoney = Double.parseDouble(stringMoney);
 		
 		int quarters = 0;
 		int dimes = 0;
@@ -117,13 +124,13 @@ public class VendingMachineInventory {
 		
 		totalMoney = 0;
 		
-		System.out.println("Your total change is $" + change + " |  Quarters: " + quarters + " |  Dimes: " + dimes + " |  Nickels: " + nickels);
+		System.out.println("Your total change is $" + df.format(change) + " |  Quarters: " + quarters + " |  Dimes: " + dimes + " |  Nickels: " + nickels);
 		
 		LocalDateTime datetime1 = LocalDateTime.now();  
-	    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a");  
+	    DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");  
 	    String formatDateTime = datetime1.format(format);  
 		
-		logPrintWriter.println(formatDateTime + " GIVE CHANGE: $" + change + " $" + totalMoney);
+		logPrintWriter.println(formatDateTime + " GIVE CHANGE: $" + df.format(change) + " $" + df.format(totalMoney));
 	}
 	
 	public void buyItem(String selectedItem){
@@ -143,25 +150,32 @@ public class VendingMachineInventory {
 						
 						inventory.get(currentKey).setStock(currentStock-1);
 						totalMoney = totalMoney - priceOfItem;	// Decrease total money
+						
+						String stringMoney = df.format(totalMoney);
+						totalMoney = Double.parseDouble(stringMoney);
+						
 						salesTotal = salesTotal + priceOfItem;
 						
-						System.out.println("Item Dispensed: " + nameOfItem + " |" + " Price: $" + priceOfItem + " |" + " Your remaining balance: $" + totalMoney + "\n" + item.getSound(currentType));
+						String stringSalesMoney = df.format(salesTotal);
+						salesTotal = Double.parseDouble(stringSalesMoney);
+						
+						System.out.println("Item Dispensed: " + nameOfItem + " |" + " Price: $" + df.format(priceOfItem) + " |" + " Your remaining balance: $" + df.format(totalMoney) + "\n" + item.getSound(currentType));
 						
 						LocalDateTime datetime1 = LocalDateTime.now();  
-					    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss a");  
+					    DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");  
 					    String formatDateTime = datetime1.format(format);  
 						
-						logPrintWriter.println(formatDateTime + " " + nameOfItem + " " + currentKey + " $" + originalMoney + " $" + totalMoney);
+						logPrintWriter.println(formatDateTime + " " + nameOfItem + " " + currentKey + " $" + df.format(originalMoney) + " $" + df.format(totalMoney));
 						
 						break;
 					}
 					else if(totalMoney - priceOfItem < 0) {
-						System.out.println("Insufficient funds | " + " Your remaining balance: $" + totalMoney);
+						System.out.println("Insufficient funds | " + " Your remaining balance: $" + df.format(totalMoney));
 						break;
 					}
 				}
 				else if(currentStock == 0) {
-					System.out.println(currentKey + " is currently out of stock | " + " Your remaining balance: $" + totalMoney);
+					System.out.println(currentKey + " is currently out of stock | " + " Your remaining balance: $" + df.format(totalMoney));
 					break;
 				}
 			}

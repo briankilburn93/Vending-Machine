@@ -1,5 +1,7 @@
 package com.techelevator;
 
+import java.text.DecimalFormat;
+
 public class VendingMachineItem {
 	/**********************************
 				Data Members 
@@ -8,6 +10,7 @@ public class VendingMachineItem {
 	private double price;
 	private String type;
 	private int stock;
+	private static DecimalFormat df = new DecimalFormat("0.00");
 	
 	
 	/**********************************
@@ -66,10 +69,10 @@ public class VendingMachineItem {
 	 **********************************/
 	public String toString() {
 		if(stock == 0) {
-			return("| " + productName + " |" + " $" + price + " | SOLD OUT \n");
+			return("| " + productName + " |" + " $" + df.format(price) + " | SOLD OUT \n");
 		}
 		else {
-		return("| " + productName + " |" + " $" + price + " | " + stock + " in stock \n"); // this is format to display items
+		return("| " + productName + " |" + " $" + df.format(price) + " | " + stock + " in stock \n"); // this is format to display items
 		}
 	}
 	

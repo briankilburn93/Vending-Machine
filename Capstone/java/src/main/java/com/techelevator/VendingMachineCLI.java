@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -49,6 +50,8 @@ public class VendingMachineCLI {
 	private VendingMachineInventory aVendingMachine;
 	File salesFile;
 	PrintWriter salesWriter;
+	
+	private static DecimalFormat df = new DecimalFormat("0.00");
 	
 	public VendingMachineCLI(Menu menu) throws FileNotFoundException {  // Constructor - user will pas a menu for this class to use
 		this.vendingMenu = menu;           // Make the Menu the user object passed, our Menu
@@ -109,7 +112,7 @@ public class VendingMachineCLI {
 			for (String key : keys) {
 				VendingMachineItem currentItem = vendingMachine.getInventory().get(key);
 				// System.out.println(key);
-				System.out.printf(key + " " + currentItem.toString());
+				System.out.println(key + " " + currentItem.toString());
 			}
 	}
 	
@@ -130,7 +133,7 @@ public class VendingMachineCLI {
 				VendingMachineItem currentItem = vendingMachine.getInventory().get(key);
 				salesWriter.println(currentItem.salesToString());
 			}
-			salesWriter.println("Total Sales: $" + aVendingMachine.getSalesTotal());
+			salesWriter.println("Total Sales: $" + df.format(aVendingMachine.getSalesTotal()));
 			salesWriter.close();
 	}
 	
@@ -146,7 +149,7 @@ public class VendingMachineCLI {
 					System.out.print("The machine accepts $1s $2s $5s or $10s. Please insert bills here: $");
 					double insertedMoney =  theKeyboard.nextDouble();
 					aVendingMachine.takeMoney(insertedMoney);
-					System.out.printf("Current money provided: $%.2f\n", aVendingMachine.getTotalMoney()); 
+					System.out.print("Current money provided: $" + df.format(aVendingMachine.getTotalMoney())); 
 					break; // Exit switch statement
 			
 				case PURCHASE_MENU_SELECT_PRODUCT:
