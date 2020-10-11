@@ -176,9 +176,4 @@ public class VendingMachineInventory {
 		logPrintWriter.close();
 	}
 	
-	public void salesReport() {
-		
-	}
-	
-	
 }

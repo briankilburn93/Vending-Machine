@@ -1,6 +1,10 @@
 package com.techelevator;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -43,6 +47,8 @@ public class VendingMachineCLI {
 	private Menu vendingMenu;              // Menu object to be used by an instance of this class
 	
 	private VendingMachineInventory aVendingMachine;
+	File salesFile;
+	PrintWriter salesWriter;
 	
 	public VendingMachineCLI(Menu menu) throws FileNotFoundException {  // Constructor - user will pas a menu for this class to use
 		this.vendingMenu = menu;           // Make the Menu the user object passed, our Menu
@@ -88,6 +94,7 @@ public class VendingMachineCLI {
 					
 				case MAIN_MENU_OPTION_SALES_REPORT:
 					salesReport(aVendingMachine);
+					
 					break;
 			}	
 		}
@@ -106,14 +113,25 @@ public class VendingMachineCLI {
 			}
 	}
 	
-	public void salesReport(VendingMachineInventory vendingMachine) {      // static attribute used as method is not associated with specific object instance
+	public void salesReport(VendingMachineInventory vendingMachine) throws FileNotFoundException {      // static attribute used as method is not associated with specific object instance
 		
 		Set<String> keys = vendingMachine.getInventory().keySet();
+		
+		LocalDateTime datetime1 = LocalDateTime.now();  
+	    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy hh.mm.ss a");  
+	    String formatDateTime = datetime1.format(format); 
+	    
+	    String salesFileName = formatDateTime + " Sales Report.txt";
+	    
+	    salesFile = new File(salesFileName);
+		salesWriter = new PrintWriter(salesFile);
+		
 			for (String key : keys) {
 				VendingMachineItem currentItem = vendingMachine.getInventory().get(key);
-				System.out.println(currentItem.salesToString());
+				salesWriter.println(currentItem.salesToString());
 			}
-				System.out.println("Total Sales: $" + aVendingMachine.getSalesTotal());
+			salesWriter.println("Total Sales: $" + aVendingMachine.getSalesTotal());
+			salesWriter.close();
 	}
 	
 	public void purchaseItems(){	 // static attribute used as method is not associated with specific object instance
@@ -153,4 +171,5 @@ public class VendingMachineCLI {
 	public void endMethodProcessing() { // static attribute used as method is not associated with specific object instance
 		System.out.println("Thanks for using the Vendo-Matic 800!"); // Any processing that needs to be done before method ends
 	}
+	
 }
