@@ -109,7 +109,7 @@ public class VendingMachineCLI {
 			for (String key : keys) {
 				VendingMachineItem currentItem = vendingMachine.getInventory().get(key);
 				// System.out.println(key);
-				System.out.println(key + " " + currentItem.toString());
+				System.out.printf(key + " " + currentItem.toString());
 			}
 	}
 	
@@ -146,7 +146,7 @@ public class VendingMachineCLI {
 					System.out.print("The machine accepts $1s $2s $5s or $10s. Please insert bills here: $");
 					double insertedMoney =  theKeyboard.nextDouble();
 					aVendingMachine.takeMoney(insertedMoney);
-					System.out.println("Current money provided: $" + aVendingMachine.getTotalMoney()); 
+					System.out.printf("Current money provided: $%.2f\n", aVendingMachine.getTotalMoney()); 
 					break; // Exit switch statement
 			
 				case PURCHASE_MENU_SELECT_PRODUCT:

@@ -3,6 +3,7 @@ package com.techelevator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -47,8 +48,8 @@ public class VendingMachineInventory {
 		this.inventory = inventory;
 	}
 
-	public double getTotalMoney() {
-		return totalMoney;
+	public BigDecimal getTotalMoney() {
+		return BigDecimal.valueOf(totalMoney);
 	}
 	
 	/**********************************
@@ -80,7 +81,7 @@ public class VendingMachineInventory {
 
 	
 
-	public double takeMoney(double insertedMoney) {
+	public BigDecimal takeMoney(double insertedMoney) {
 		
 		double currentMoney = totalMoney;
 		
@@ -94,7 +95,7 @@ public class VendingMachineInventory {
 		
 		logPrintWriter.println(formatDateTime + " FEED MONEY: $" + currentMoney + " $" + totalMoney);
 		
-		return totalMoney;
+		return BigDecimal.valueOf(totalMoney);
 	}
 	
 	public void returnChange() {
